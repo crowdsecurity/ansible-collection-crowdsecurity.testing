@@ -1,0 +1,7 @@
+# vim: set ft=yaml.ansible:
+---
+- name: "install git"
+  become: true
+  ansible.builtin.package:
+    name:
+      - git

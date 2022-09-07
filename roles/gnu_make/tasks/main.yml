@@ -1,0 +1,17 @@
+# vim: set ft=yaml.ansible:
+---
+- name: "install make (Linux)"
+  become: true
+  ansible.builtin.package:
+    name:
+      - make
+  when:
+    - ansible_facts.system == "Linux"
+
+- name: "install gmake (bsd)"
+  become: true
+  ansible.builtin.package:
+    name:
+      - gmake
+  when:
+    - ansible_facts.system in ['FreeBSD', 'OpenBSD']

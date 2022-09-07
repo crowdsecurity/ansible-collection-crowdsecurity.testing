@@ -1,0 +1,10 @@
+# vim: set ft=yaml.ansible:
+---
+- name: "enable EPEL repository (RedHat)"
+  ansible.builtin.include_role:
+    name: geerlingguy.repo-epel
+  vars:
+    epel_repo_disable: false
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.distribution not in ['Fedora', 'Amazon', 'Oracle']
