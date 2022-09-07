@@ -1,0 +1,9 @@
+# vim: set ft=yaml.ansible:
+---
+- name: "update package cache (Debian)"
+  become: true
+  ansible.builtin.apt:
+    upgrade: false
+    update_cache: true
+  when:
+    - ansible_facts.os_family == "Debian"
