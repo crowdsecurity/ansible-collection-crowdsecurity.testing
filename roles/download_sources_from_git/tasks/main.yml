@@ -1,0 +1,19 @@
+# vim: set ft=yaml.ansible:
+---
+
+- name: "install tests from repository"
+  block:
+    - name: "checkout sources from {{ sources_git_repo }}"
+      become: false
+      ansible.builtin.git:
+        repo: "{{ sources_git_repo }}"
+        dest: "{{ sources_dest_dir }}"
+        version: "{{ sources_git_version }}"
+
+    # trust the dir if we need to test as root
+    - name: set safe.directory on crowdsec dir"
+      become: true
+      community.general.git_config:
+        scope: global
+        name: safe.directory
+        value: "{{ sources_dest_dir }}"
