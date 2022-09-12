@@ -1,20 +1,14 @@
 # vim: set ft=yaml.ansible:
 ---
 
-#- name: print variables
-#  ansible.builtin.debug:
-#    msg: |
-#      golang_version: {{ golang_version }}
-#      golang_install_dir: {{ golang_install_dir }}
-
-- name: "install Go (!bsd)"
+- name: "Install Go (!bsd)"
   ansible.builtin.include_role:
     name: gantsign.golang
   when:
     - ansible_facts.system == 'Linux'
     - ansible_facts.distribution != 'Alpine'
 
-- name: "install Go (bsd, alpine)"
+- name: "Install Go (bsd, alpine)"
   become: true
   ansible.builtin.package:
     name: go

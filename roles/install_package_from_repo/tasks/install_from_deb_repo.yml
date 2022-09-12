@@ -1,0 +1,33 @@
+# vim: set ft=yaml.ansible:
+---
+
+- name: "Install stuff"
+  become: true
+  ansible.builtin.package:
+    name:
+      - apt-transport-https
+      - gnupg
+
+- name: "Install crowdsec from the package repository"
+  become: true
+  block:
+    - name: "Stable apt repo key"
+      ansible.builtin.apt_key:
+        url: https://packagecloud.io/crowdsec/crowdsec/gpgkey
+
+    - name: "Stable apt repo"
+      ansible.builtin.apt_repository:
+        repo: deb https://packagecloud.io/crowdsec/crowdsec/{{ ansible_facts.distribution | lower }}/ {{ ansible_facts.distribution_release }} main
+
+    - name: "Testing apt repo key"
+      ansible.builtin.apt_key:
+        url: https://packagecloud.io/crowdsec/crowdsec-testing/gpgkey
+
+    - name: "Testing apt repo"
+      ansible.builtin.apt_repository:
+        repo: deb https://packagecloud.io/crowdsec/crowdsec-testing/{{ ansible_facts.distribution | lower }}/ {{ ansible_facts.distribution_release }} main
+
+    - name: "Install crowdsec {{ package_vesion_deb }} with apt"
+      ansible.builtin.package:
+        name:
+          - crowdsec={{ package_version_deb }}

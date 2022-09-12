@@ -1,6 +1,7 @@
 # vim: set ft=yaml.ansible:
 ---
-- name: "install gcc"
+
+- name: "Install gcc"
   become: true
   ansible.builtin.package:
     name:

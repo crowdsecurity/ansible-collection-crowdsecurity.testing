@@ -1,6 +1,7 @@
 # vim: set ft=yaml.ansible:
 ---
-- name: "install tests from zip file"
+
+- name: "Install tests from zip file"
   block:
     - name: "install unzip"
       become: true
@@ -8,20 +9,20 @@
         name:
           - unzip
 
-    - name: "install tests: create source dir"
+    - name: "Install tests: create source dir"
       become: false
       ansible.builtin.file:
         path: "{{ sources_dest_dir }}"
         state: directory
         mode: 0o700
 
-    - name: "install tests: extract crowdsec"
+    - name: "Install tests: extract crowdsec"
       become: false
       ansible.builtin.unarchive:
         src: "{{ sources_zip }}"
         dest: "{{ sources_dest_dir }}"
 
-    - name: "install tests: git submodules for bats"
+    - name: "Install tests: git submodules for bats"
       become: false
       ansible.builtin.command:
         cmd: "{{ item }}"

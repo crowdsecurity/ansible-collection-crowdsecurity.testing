@@ -1,4 +1,5 @@
 # vim set ft=yaml.ansible:
 ---
+
 roles:
   - src: geerlingguy.repo-epel

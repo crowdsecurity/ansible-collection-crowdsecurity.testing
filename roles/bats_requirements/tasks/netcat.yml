@@ -1,6 +1,7 @@
 # vim: set ft=yaml.ansible:
 ---
-- name: "install netcat (Amazon, Fedora, CentOS, Oracle)"
+
+- name: "Install netcat (Amazon, Fedora, CentOS, Oracle)"
   become: true
   ansible.builtin.package:
     name:
@@ -8,7 +9,7 @@
   when:
     - ansible_facts.distribution in ['Amazon',  'Fedora', 'CentOS', 'OracleLinux']
 
-- name: "install netcat (RedHat)"
+- name: "Install netcat (RedHat)"
   become: true
   ansible.builtin.package:
     name:
@@ -17,7 +18,7 @@
     - (ansible_facts.distribution == 'RedHat') or (ansible_facts.distribution == 'AlmaLinux') or (ansible_facts.distribution == 'Rocky')
 
 # "netcat" does not exist in some Debian versions (only -traditional or -openbsd)
-- name: "install netcat (Suse)"
+- name: "Install netcat (Suse)"
   become: true
   ansible.builtin.package:
     name:

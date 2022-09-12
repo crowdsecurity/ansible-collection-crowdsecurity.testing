@@ -1,6 +1,7 @@
 # vim: set ft=yaml.ansible:
 ---
-- name: "install bash"
+
+- name: "Install bash"
   ansible.builtin.import_tasks: bash.yml
   when:
     # openbsd is not supported by the package_facts module, let's assume bash is ok
@@ -9,7 +10,7 @@
 - name: "Install daemonize"
   ansible.builtin.import_tasks: daemonize.yml
 
-- name: "install netcat"
+- name: "Install netcat"
   ansible.builtin.import_tasks: netcat.yml
 
 - name: "Install curl, jq, openssl, python3"
@@ -23,7 +24,7 @@
   when:
     - ansible_facts.distribution != 'Gentoo'
 
-- name: "install bc (!freebsd)"
+- name: "Install bc (!freebsd)"
   become: true
   ansible.builtin.package:
     name:
@@ -32,7 +33,7 @@
     - ansible_facts.system == 'Linux'
 
 # base64 for linux is in coreutils
-- name: "install base64 (bsd)"
+- name: "Install base64 (bsd)"
   become: true
   ansible.builtin.package:
     name:
@@ -40,7 +41,7 @@
   when:
     - ansible_facts.system in ['FreeBSD', 'OpenBSD']
 
-- name: "install pidof (Amazon)"
+- name: "Install pidof (Amazon)"
   become: true
   ansible.builtin.package:
     name:
@@ -48,7 +49,7 @@
   when:
     - ansible_facts.distribution == 'Amazon'
 
-- name: "install cfssl"
+- name: "Install cfssl"
   become: true
   ansible.builtin.command:
     cmd: "go install github.com/cloudflare/cfssl/cmd/cfssl@latest"
@@ -58,7 +59,7 @@
     # make sure we use the built version of go, if there is one
     PATH: "{{ golang_install_dir }}/bin:{{ ansible_env.PATH }}"
 
-- name: "install cfssljson"
+- name: "Install cfssljson"
   become: true
   ansible.builtin.command:
     cmd: "go install github.com/cloudflare/cfssl/cmd/cfssljson@latest"
@@ -68,7 +69,7 @@
     # make sure we use the built version of go, if there is one
     PATH: "{{ golang_install_dir }}/bin:{{ ansible_env.PATH }}"
 
-- name: "install yq"
+- name: "Install yq"
   become: true
   ansible.builtin.command:
     cmd: "go install github.com/mikefarah/yq/v4@latest"

@@ -1,6 +1,7 @@
 # vim: set ft=yaml.ansible:
 ---
-- name: "install make (Linux)"
+
+- name: "Install make (Linux)"
   become: true
   ansible.builtin.package:
     name:
@@ -8,7 +9,7 @@
   when:
     - ansible_facts.system == "Linux"
 
-- name: "install gmake (bsd)"
+- name: "Install gmake (bsd)"
   become: true
   ansible.builtin.package:
     name:

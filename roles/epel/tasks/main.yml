@@ -1,6 +1,7 @@
 # vim: set ft=yaml.ansible:
 ---
-- name: "enable EPEL repository (RedHat)"
+
+- name: "Enable EPEL repository (RedHat)"
   ansible.builtin.include_role:
     name: geerlingguy.repo-epel
   vars:

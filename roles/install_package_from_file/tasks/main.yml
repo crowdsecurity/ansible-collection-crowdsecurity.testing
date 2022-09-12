@@ -1,0 +1,12 @@
+# vim: set ft=yaml.ansible:
+---
+
+- name: "Install from *.rpm package file"
+  ansible.builtin.import_tasks: install_from_rpm.yml
+  when:
+    - ansible_facts.os_family == "RedHat"
+
+- name: "Install from *.deb package file"
+  ansible.builtin.import_tasks: install_from_deb.yml
+  when:
+    - ansible_facts.os_family == "Debian"
