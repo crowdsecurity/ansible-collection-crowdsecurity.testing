@@ -3,7 +3,7 @@
 
 - name: "Install tests from repository"
   block:
-    - name: "checkout sources from {{ sources_git_repo }}"
+    - name: "Checkout sources from {{ sources_git_repo }}"
       become: false
       ansible.builtin.git:
         repo: "{{ sources_git_repo }}"
@@ -11,7 +11,7 @@
         version: "{{ sources_git_version }}"
 
     # trust the dir if we need to test as root
-    - name: set safe.directory on crowdsec dir"
+    - name: "Set safe.directory on crowdsec dir"
       become: true
       community.general.git_config:
         scope: global

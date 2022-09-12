@@ -1,7 +1,7 @@
 # vim: set ft=yaml.ansible:
 ---
 
-- name: "Install crowdsec from the package repository"
+- name: "Install binaries under test from the package repository"
   become: true
   block:
     - name: "Stable rpm repo script"
@@ -26,7 +26,7 @@
         cmd: "/root/rpm-testing.sh"
       changed_when: true
 
-    - name: "Install crowdsec"
+    - name: "Install package {{ binary_package_name }}"
       ansible.builtin.package:
         name:
-          - crowdsec-{{ package_version_rpm }}.{{ releasever.replace('amzn2', 'el7').replace('ol7', 'el7').replace('ol8', 'el8') }}
+          - "{{ binary_package_name }}-{{ package_version_rpm }}.{{ releasever.replace('amzn2', 'el7').replace('ol7', 'el7').replace('ol8', 'el8') }}"

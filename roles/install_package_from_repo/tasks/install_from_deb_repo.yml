@@ -8,7 +8,7 @@
       - apt-transport-https
       - gnupg
 
-- name: "Install crowdsec from the package repository"
+- name: "Install binaries under test from the package repository"
   become: true
   block:
     - name: "Stable apt repo key"
@@ -27,7 +27,7 @@
       ansible.builtin.apt_repository:
         repo: deb https://packagecloud.io/crowdsec/crowdsec-testing/{{ ansible_facts.distribution | lower }}/ {{ ansible_facts.distribution_release }} main
 
-    - name: "Install crowdsec {{ package_vesion_deb }} with apt"
+    - name: "Install {{ binary_package_name }} {{ package_vesion_deb }} with apt"
       ansible.builtin.package:
         name:
-          - crowdsec={{ package_version_deb }}
+          - "{{ binary_package_name }}={{ package_version_deb }}"
