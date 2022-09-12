@@ -2,8 +2,11 @@
 ---
 
 - name: "Enable EPEL repository (RedHat)"
-  ansible.builtin.include_role:
-    name: geerlingguy.repo-epel
+  become: true
+  block:
+    - name: "Include role repo-epel"
+      ansible.builtin.include_role:
+        name: geerlingguy.repo-epel
   vars:
     epel_repo_disable: false
   when:
