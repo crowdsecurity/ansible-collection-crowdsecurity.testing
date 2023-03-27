@@ -13,8 +13,9 @@
     path: "/var/lib/dbus"
   register: dbus
 
-# some distributions use var/lib/dbus,
+# Some distributions use var/lib/dbus,
 # but the directory doesn't exists on fedora
+# We only need to set this file if it's not a link to /etc/machine-id
 - name: "Set /var/lib/dbus/machine-id"
   become: true
   ansible.builtin.copy:
@@ -23,3 +24,4 @@
     mode: 0o444
   when:
     - dbus.stat.exists
+    - not dbus.stat.islnk
