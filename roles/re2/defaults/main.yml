@@ -1,0 +1,4 @@
+# vim: set ft=yaml.ansible:
+---
+
+re2_version: 2023-03-01

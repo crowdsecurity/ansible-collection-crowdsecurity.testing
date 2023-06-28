@@ -1,0 +1,17 @@
+# vim: set ft=yaml.ansible:
+---
+
+  - name: "Build libre2: download"
+    become: false
+    ansible.builtin.unarchive:
+      src: https://github.com/google/re2/archive/refs/tags/{{ re2_version }}.tar.gz
+      dest: "{{ ansible_env.HOME }}"
+      remote_src: true
+      creates: "{{ ansible_env.HOME }}/re2-{{ re2_version }}"
+
+  - name: "Build libre2: make install"
+    become: true
+    ansible.builtin.command:
+      cmd: "make install"
+      creates: /usr/local/lib/libre2.a
+      chdir: "{{ ansible_env.HOME }}/re2-{{ re2_version }}"
