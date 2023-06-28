@@ -6,3 +6,21 @@
   ansible.builtin.package:
     name:
       - gcc
+
+# freebsd includes g++ in the gcc package
+
+- name: "Install g++ (deb)"
+  become: true
+  ansible.builtin.package:
+    name:
+      - g++
+  when:
+    - ansible_facts.os_family == "Debian"
+
+- name: "Install g++ (rpm)"
+  become: true
+  ansible.builtin.package:
+    name:
+      - gcc-c++
+  when:
+    - ansible_facts.os_family == "Redhat"
