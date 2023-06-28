@@ -24,3 +24,11 @@
       - gcc-c++
   when:
     - ansible_facts.os_family == "Redhat"
+
+- name: "Install static libc (rpm)"
+  become: true
+  ansible.builtin.package:
+    name:
+      - glibc-static
+  when:
+    - ansible_facts.os_family == "Redhat"
