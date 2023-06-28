@@ -1,0 +1,26 @@
+# vim: set ft=yaml.ansible:
+---
+
+- name: "Install pkg-config (deb)"
+  become: true
+  ansible.builtin.package:
+    name:
+      - pkg-config
+  when:
+    - ansible_facts.os_family == "Debian"
+
+- name: "Install pkg-config (rpm)"
+  become: true
+  ansible.builtin.package:
+    name:
+      - pkgconfig
+  when:
+    - ansible_facts.os_family == "Redhat"
+
+- name: "Install pkg-config (freebsd)"
+  become: true
+  ansible.builtin.package:
+    name:
+      - devel/pkgconf
+  when:
+    - ansible_facts.os_family == "FreeBSD"
