@@ -9,4 +9,4 @@
         name: robertdebock.powertools
   when:
     - ansible_facts.os_family == 'RedHat'
-    - ansible_facts.distribution not in ['Fedora', 'Amazon', 'Oracle']
+    - ansible_facts.distribution not in ['Fedora', 'Amazon', 'Oracle', 'CentOS']
