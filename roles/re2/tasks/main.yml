@@ -12,6 +12,9 @@
   - name: "Build libre2: make install"
     become: true
     ansible.builtin.command:
-      cmd: "make install"
+      cmd: "{{ make_cmd }} install"
       creates: /usr/local/lib/libre2.a
       chdir: "{{ ansible_env.HOME }}/re2-{{ re2_version }}"
+    environment:
+      # required on old distributions, e.g. ubuntu 16.04
+      CXXFLAGS: -std=c++11

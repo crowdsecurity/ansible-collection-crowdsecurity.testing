@@ -49,6 +49,7 @@
   when:
     - ansible_facts.distribution == 'Amazon'
 
+# TODO: not required since crowdsec 1.5.3
 - name: "Install cfssl"
   become: true
   ansible.builtin.command:
@@ -59,6 +60,7 @@
     # make sure we use the built version of go, if there is one
     PATH: "{{ golang_install_dir }}/bin:{{ ansible_env.PATH }}"
 
+# TODO: not required since crowdsec 1.5.3
 - name: "Install cfssljson"
   become: true
   ansible.builtin.command:
@@ -69,6 +71,7 @@
     # make sure we use the built version of go, if there is one
     PATH: "{{ golang_install_dir }}/bin:{{ ansible_env.PATH }}"
 
+# TODO: not required since crowdsec 1.5.3
 - name: "Install yq"
   become: true
   ansible.builtin.command:
