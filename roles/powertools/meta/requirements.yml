@@ -1,0 +1,5 @@
+# vim set ft=yaml.ansible:
+---
+
+roles:
+  - src: robertdebock.powertools
