@@ -26,6 +26,17 @@
         cmd: "/root/rpm-testing.sh"
       changed_when: true
 
+    - name: "Dev rpm repo script"
+      ansible.builtin.get_url:
+        url: https://packagecloud.io/install/repositories/crowdsec/crowdsec-dev/script.rpm.sh
+        dest: "/root/rpm-dev.sh"
+        mode: 0o775
+
+    - name: "Dev rpm repo"
+      ansible.builtin.command:
+        cmd: "/root/rpm-dev.sh"
+      changed_when: true
+
     - name: "Install package {{ binary_package_name }}"
       ansible.builtin.package:
         name:
