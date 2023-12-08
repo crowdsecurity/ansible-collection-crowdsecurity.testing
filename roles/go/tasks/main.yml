@@ -3,7 +3,7 @@
 
 - name: "Install Go (!bsd)"
   ansible.builtin.include_role:
-    name: gantsign.golang
+    name: gantsign.ansible-golang-role
   when:
     - ansible_facts.system == 'Linux'
     - ansible_facts.distribution != 'Alpine'
