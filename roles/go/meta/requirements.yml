@@ -2,4 +2,4 @@
 ---
 
 roles:
-  - src: gantsign.golang
+  - src: gantsign.ansible-role-golang
