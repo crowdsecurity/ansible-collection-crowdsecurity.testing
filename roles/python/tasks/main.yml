@@ -1,7 +1,7 @@
 #tasks file for roles/python
 - name: Download and unpacking Python source
   unarchive:
-    src: "{{ python_source_url }}"
+    src: https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python-version }}.tgz
     dest: /tmp
     mode: 0755
     remote_src: yes
@@ -12,13 +12,13 @@
   args:
     chdir: "/tmp/Python-{{ python_version }}"
 
-- name: Linux | Compile and install Python
+- name: Compile Python
   shell: "make"
   args:
     chdir: "/tmp/Python-{{ python_version }}"
 
-- name: Linux | Compile and install Python
+- name: Install Python
   become: true
-  shell: "make"
+  shell: "make install"
   args:
     chdir: "/tmp/Python-{{ python_version }}"
