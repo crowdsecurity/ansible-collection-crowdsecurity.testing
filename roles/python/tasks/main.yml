@@ -1,0 +1,24 @@
+#tasks file for roles/python
+- name: Download and unpacking Python source
+  unarchive:
+    src: "{{ python_tarball_url }}"
+    dest: /tmp
+    mode: 0755
+    remote_src: yes
+
+- name: Configure Python source
+  shell: |
+    ./configure --enable-optimization --with-ensurepip=install
+  args:
+    chdir: "/tmp/Python-{{ python_version }}"
+
+- name: Linux | Compile and install Python
+  shell: "make"
+  args:
+    chdir: "/tmp/Python-{{ python_version }}"
+
+- name: Linux | Compile and install Python
+  become: true
+  shell: "make"
+  args:
+    chdir: "/tmp/Python-{{ python_version }}"
