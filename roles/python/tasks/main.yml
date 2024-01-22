@@ -1,4 +1,14 @@
+
 #tasks file for roles/python
+
+- name: install python dependencies
+  package:
+    - libffi-devel
+    - zlib-devel
+  when:
+    - ansible_distribution == 'Fedora'
+    - andible_distribution == 'CentOS' and ansible_distribution_version.startswith('7')
+
 - name: Download and unpacking Python source
   unarchive:
     src: https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python_version }}.tgz
