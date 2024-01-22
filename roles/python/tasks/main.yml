@@ -1,7 +1,8 @@
 #tasks file for roles/python
 - name: Download and unpacking Python source
   unarchive:
-    src: https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python-version }}.tgz
+#    src: https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python-version }}.tgz
+    src: https://www.python.org/ftp/python/3.11.7/Python-3.11.7.tgz
     dest: /tmp
     mode: 0755
     remote_src: yes
