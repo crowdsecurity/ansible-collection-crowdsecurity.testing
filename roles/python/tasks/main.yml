@@ -1,7 +1,7 @@
 #tasks file for roles/python
 - name: Download and unpacking Python source
   unarchive:
-    src: "{{ python_tarball_url }}"
+    src: "{{ python_source_url }}"
     dest: /tmp
     mode: 0755
     remote_src: yes
