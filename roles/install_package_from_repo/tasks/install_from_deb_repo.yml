@@ -17,7 +17,7 @@
 
     - name: "Stable apt repo"
       ansible.builtin.apt_repository:
-        repo: deb https://packagecloud.io/crowdsec/crowdsec/{{ ansible_facts.distribution | lower }}/ {{ ansible_facts.distribution_release }} main
+        repo: deb https://packagecloud.io/crowdsec/crowdsec/any/ any main
 
     - name: "Testing apt repo key"
       ansible.builtin.apt_key:
@@ -25,7 +25,7 @@
 
     - name: "Testing apt repo"
       ansible.builtin.apt_repository:
-        repo: deb https://packagecloud.io/crowdsec/crowdsec-testing/{{ ansible_facts.distribution | lower }}/ {{ ansible_facts.distribution_release }} main
+        repo: deb https://packagecloud.io/crowdsec/crowdsec-testing/any/ any main
 
     - name: "Testing apt repo key"
       ansible.builtin.apt_key:
@@ -33,7 +33,7 @@
   
     - name: "Dev apt repo"
       ansible.builtin.apt_repository:
-        repo: deb https://packagecloud.io/crowdsec/crowdsec-dev/{{ ansible_facts.distribution | lower }}/ {{ ansible_facts.distribution_release }} main
+        repo: deb https://packagecloud.io/crowdsec/crowdsec-dev/any/ any main
 
     - name: "Install {{ binary_package_name }} {{ package_vesion_deb }} with apt"
       ansible.builtin.package:
