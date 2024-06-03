@@ -17,13 +17,23 @@
     dest: "{{ temp_dir }}"
     remote_src: yes
 
-- name: Copy extracted files to /usr/local
+- name: Compile python
   become: true
-  copy:
-    src: "{{ temp_dir }}/Python-{{ python_version }}"
-    dest: "{{ install_dir }}"
-    remote_src: yes
-    mode: '0755'
+  command: "{{ item }}"
+  args:
+    chdir: "{{ temp_dir }}"
+  with_items:
+    - ./configure --enable-optimizations
+    - make -j4
+    - make altinstall
+
+# - name: Copy extracted files to /usr/local
+#   become: true
+#   copy:
+#     src: "{{ temp_dir }}/Python-{{ python_version }}"
+#     dest: "{{ install_dir }}"
+#     remote_src: yes
+#     mode: '0755'
 
 - name: Create symlink for python3
   become: true
