@@ -16,7 +16,6 @@
     path: "{{ temp_dir }}"
     state: directory
 
-
 - name: Extract Python binary
   unarchive:
     src: "{{ temp_dir }}.tar.xz"
@@ -26,18 +25,18 @@
 - name: Compile python
   command:
     cmd: "./configure --enable-optimizations"
-    chdir: "{{ temp_dir }}"
+    chdir: "{{ temp_dir }}/Python-{{ python_version }}"
 
 - name: Compile python
   command:
     cmd: "make -j4"
-    chdir: "{{ temp_dir }}"
+    chdir: "{{ temp_dir }}/Python-{{ python_version }}"
 
 - name: Compile python
   become: true
   command:
     cmd: "make altinstall"
-    chdir: "{{ temp_dir }}"
+    chdir: "{{ temp_dir }}/Python-{{ python_version }}"
 
 # - name: Copy extracted files to /usr/local
 #   become: true
