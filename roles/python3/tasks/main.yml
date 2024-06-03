@@ -1,9 +1,7 @@
 - name: Ensure dependencies are installed
   become: true
   yum:
-    name: "{{ item }}"
-    state: present
-    loop:
+    name:
       - wget
       - xz-utils
 
