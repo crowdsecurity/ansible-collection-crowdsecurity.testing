@@ -1,72 +1,66 @@
 ---
-- name: Install Python from Binary
+- name: Ensure dependencies are installed
+  become: true
+  yum:
+    name: "{{ item }}"
+    state: present
+    loop:
+      - wget
+      - xz-utils
 
-  vars:
+- name: Download Python binary
+  get_url:
+    url: "{{ download_url }}"
+    dest: "{{ temp_dir }}.tar.xz"
+    mode: '0644'
 
-  tasks:
-    - name: Ensure dependencies are installed
-      become: yes
-      yum:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - wget
-        - xz-utils
+- name: Extract Python binary
+  unarchive:
+    src: "{{ temp_dir }}.tar.xz"
+    dest: "{{ temp_dir }}"
+    remote_src: yes
 
-    - name: Download Python binary
-      get_url:
-        url: "{{ download_url }}"
-        dest: "{{ temp_dir }}.tar.xz"
-        mode: '0644'
+- name: Copy extracted files to /usr/local
+  become: true
+  copy:
+    src: "{{ temp_dir }}/Python-{{ python_version }}"
+    dest: "{{ install_dir }}"
+    remote_src: yes
+    mode: '0755'
 
-    - name: Extract Python binary
-      unarchive:
-        src: "{{ temp_dir }}.tar.xz"
-        dest: "{{ temp_dir }}"
-        remote_src: yes
+- name: Create symlink for python3
+  become: true
+  file:
+    src: "{{ install_dir }}/bin/python3"
+    dest: "/usr/local/bin/python3"
+    state: link
 
-    - name: Copy extracted files to /usr/local
-      become: yes
-      copy:
-        src: "{{ temp_dir }}/Python-{{ python_version }}"
-        dest: "{{ install_dir }}"
-        remote_src: yes
-        mode: '0755'
+- name: Create symlink for pip3
+  become: true
+  file:
+    src: "{{ install_dir }}/bin/pip3"
+    dest: "/usr/local/bin/pip3"
+    state: link
 
-    - name: Create symlink for python3
-      become: yes
-      file:
-        src: "{{ install_dir }}/bin/python3"
-        dest: "/usr/local/bin/python3"
-        state: link
+- name: Verify Python installation
+  command: python3 --version
+  register: python_version_output
 
-    - name: Create symlink for pip3
-      become: yes
-      file:
-        src: "{{ install_dir }}/bin/pip3"
-        dest: "/usr/local/bin/pip3"
-        state: link
+- name: Verify Pip installation
+  command: pip3 --version
+  register: pip_version_output
 
-    - name: Verify Python installation
-      command: python3 --version
-      register: python_version_output
+- name: Print Python version
+  debug:
+    msg: "Python version installed: {{ python_version_output.stdout }}"
 
-    - name: Verify Pip installation
-      command: pip3 --version
-      register: pip_version_output
+- name: Print Pip version
+  debug:
+    msg: "Pip version installed: {{ pip_version_output.stdout }}"
 
-    - name: Print Python version
-      debug:
-        msg: "Python version installed: {{ python_version_output.stdout }}"
-
-    - name: Print Pip version
-      debug:
-        msg: "Pip version installed: {{ pip_version_output.stdout }}"
-
-    - name: Clean up temporary files
-      file:
-        path: "{{ temp_dir }}"
-        state: absent
-        recurse: yes
+- name: Clean up temporary files
+  file:
+    path: "{{ temp_dir }}"
+    state: absent
 ---
 # tasks file for roles/python3
