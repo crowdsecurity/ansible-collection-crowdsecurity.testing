@@ -3,7 +3,7 @@
   yum:
     name:
       - wget
-      - xz-utils
+      - xz
 
 - name: Download Python binary
   get_url:
