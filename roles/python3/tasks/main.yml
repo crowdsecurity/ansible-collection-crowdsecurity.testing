@@ -24,14 +24,20 @@
     remote_src: yes
 
 - name: Compile python
-  become: true
-  command: "{{ item }}"
-  args:
+  command:
+    cmd: "./configure --enable-optimizations"
     chdir: "{{ temp_dir }}"
-  with_items:
-    - ./configure --enable-optimizations
-    - make -j4
-    - make altinstall
+
+- name: Compile python
+  command:
+    cmd: "make -j4"
+    chdir: "{{ temp_dir }}"
+
+- name: Compile python
+  become: true
+  command:
+    cmd: "make altinstall"
+    chdir: "{{ temp_dir }}"
 
 # - name: Copy extracted files to /usr/local
 #   become: true
