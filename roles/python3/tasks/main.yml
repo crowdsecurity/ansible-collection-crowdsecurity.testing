@@ -86,15 +86,22 @@
 - name: Create symlink for python3
   become: true
   file:
-    src: "{{ install_dir }}"
+    src: "{{ install_dir }}/python{{ python_major_minor }}"
     dest: "/usr/local/bin/python3"
     state: link
 
 - name: Create symlink for pip3
   become: true
   file:
-    src: "{{ install_dir }}/bin/pip3"
+    src: "{{ install_dir }}/pip{{ python_major_minor }}"
     dest: "/usr/local/bin/pip3"
+    state: link
+
+- name: Create symlink for pip3
+  become: true
+  file:
+    src: "{{ install_dir }}/pip{{ python_major_minor }}"
+    dest: "/usr/local/bin/pip"
     state: link
 
 - name: Verify Python installation

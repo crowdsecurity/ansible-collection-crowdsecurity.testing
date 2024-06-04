@@ -3,5 +3,5 @@
 python_version: "3.12.3"
 python_major_minor: "{{ python_version | regex_search('^[0-9]+\\.[0-9]+') }}"
 download_url: "https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python_version }}.tar.xz"
-install_dir: "/usr/local/bin/python{{ python_major_minor }}"
+install_dir: "/usr/local/bin"
 temp_dir: "/tmp/python{{ python_version }}"
