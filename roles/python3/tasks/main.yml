@@ -12,7 +12,7 @@
       - readline-devel
       - tk-devel
       - gdbm-devel
-      - db4-devel
+#      - db4-devel
       - libpcap-devel
       - xz-devel
 
