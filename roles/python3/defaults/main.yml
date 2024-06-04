@@ -2,5 +2,5 @@
 # defaults file for roles/python3
 python_version: "3.12.3"
 download_url: "https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python_version }}.tar.xz"
-nstall_dir: "/usr/local/python{{ python_version }}"
+install_dir: "/usr/local/python{{ python_version }}"
 temp_dir: "/tmp/python{{ python_version }}"
