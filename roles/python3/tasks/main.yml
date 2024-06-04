@@ -4,6 +4,17 @@
     name:
       - wget
       - xz
+      - zlib-devel
+      - bzip2-devel
+      - openssl-devel
+      - ncurses-devel
+      - sqlite-devel
+      - readline-devel
+      - tk-devel
+      - gdbm-devel
+      - db4-devel
+      - libpcap-devel
+      - xz-devel
 
 - name: Download Python binary
   get_url:
@@ -23,7 +34,7 @@
     name:
       - centos-release-scl-rh
   when:
-    - ansible_facts.distribution_major_version == '8' or ansible_facts.distribution_major_version == '7'
+    - ansible_facts.distribution_major_version == '7'
 
 - name: install devtoolset
   become: true
@@ -31,14 +42,14 @@
     name:
       - devtoolset-8-toolchain
   when:
-    - ansible_facts.distribution_major_version == '8' or ansible_facts.distribution_major_version == '7'
+    - ansible_facts.distribution_major_version == '7'
 
 - name: enable newer gcc
   become: true
   command:
     cmd: scl enable devtoolset-8 bash
   when:
-    - ansible_facts.distribution_major_version == '8' or ansible_facts.distribution_major_version == '7'
+    - ansible_facts.distribution_major_version == '7'
 
 - name: Extract Python binary
   unarchive:
@@ -50,6 +61,8 @@
   command:
     cmd: "./configure --enable-optimizations"
     chdir: "{{ temp_dir }}/Python-{{ python_version }}"
+  environment:
+    LDFLAGS: "-Wl,-rpath /usr/local/lib"
 
 - name: Compile python
   command:
