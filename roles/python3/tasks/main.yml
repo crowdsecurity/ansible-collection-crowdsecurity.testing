@@ -121,6 +121,7 @@
     msg: "Pip version installed: {{ pip_version_output.stdout }}"
 
 - name: Clean up temporary files
+  become: true
   file:
     path: "{{ temp_dir }}"
     state: absent
