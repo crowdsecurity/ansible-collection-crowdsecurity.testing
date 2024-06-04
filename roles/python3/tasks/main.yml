@@ -59,7 +59,7 @@
 
 - name: Compile python
   command:
-    cmd: "./configure --enable-optimizations"
+    cmd: "./configure"
     chdir: "{{ temp_dir }}/Python-{{ python_version }}"
   environment:
     LDFLAGS: "-Wl,-rpath /usr/local/lib"
