@@ -3,7 +3,18 @@
   yum:
     name:
       - wget
-      - xz-utils
+      - xz
+      - zlib-devel
+      - bzip2-devel
+      - openssl-devel
+      - ncurses-devel
+      - sqlite-devel
+      - readline-devel
+      - tk-devel
+      - gdbm-devel
+#      - db4-devel
+      - libpcap-devel
+      - xz-devel
 
 - name: Download Python binary
   get_url:
@@ -11,32 +22,86 @@
     dest: "{{ temp_dir }}.tar.xz"
     mode: '0644'
 
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ temp_dir }}"
+    state: directory
+
+#install newer gcc for centos 7
+- name: enable devtoolset repo
+  become: true
+  yum:
+    name:
+      - centos-release-scl-rh
+  when:
+    - ansible_facts.distribution_major_version == '7'
+
+- name: install devtoolset
+  become: true
+  yum:
+    name:
+      - devtoolset-8-toolchain
+  when:
+    - ansible_facts.distribution_major_version == '7'
+
+- name: enable newer gcc
+  become: true
+  command:
+    cmd: scl enable devtoolset-8 bash
+  when:
+    - ansible_facts.distribution_major_version == '7'
+
 - name: Extract Python binary
   unarchive:
     src: "{{ temp_dir }}.tar.xz"
     dest: "{{ temp_dir }}"
     remote_src: yes
 
-- name: Copy extracted files to /usr/local
+- name: Compile python
+  command:
+    cmd: "./configure"
+    chdir: "{{ temp_dir }}/Python-{{ python_version }}"
+  environment:
+    LDFLAGS: "-Wl,-rpath /usr/local/lib"
+
+- name: Compile python
+  command:
+    cmd: "make -j4"
+    chdir: "{{ temp_dir }}/Python-{{ python_version }}"
+
+- name: Compile python
   become: true
-  copy:
-    src: "{{ temp_dir }}/Python-{{ python_version }}"
-    dest: "{{ install_dir }}"
-    remote_src: yes
-    mode: '0755'
+  command:
+    cmd: "make altinstall"
+    chdir: "{{ temp_dir }}/Python-{{ python_version }}"
+
+# - name: Copy extracted files to /usr/local
+#   become: true
+#   copy:
+#     src: "{{ temp_dir }}/Python-{{ python_version }}"
+#     dest: "{{ install_dir }}"
+#     remote_src: yes
+#     mode: '0755'
 
 - name: Create symlink for python3
   become: true
   file:
-    src: "{{ install_dir }}/bin/python3"
+    src: "{{ install_dir }}/python{{ python_major_minor }}"
     dest: "/usr/local/bin/python3"
     state: link
 
 - name: Create symlink for pip3
   become: true
   file:
-    src: "{{ install_dir }}/bin/pip3"
+    src: "{{ install_dir }}/pip{{ python_major_minor }}"
     dest: "/usr/local/bin/pip3"
+    state: link
+
+- name: Create symlink for pip3
+  become: true
+  file:
+    src: "{{ install_dir }}/pip{{ python_major_minor }}"
+    dest: "/usr/local/bin/pip"
     state: link
 
 - name: Verify Python installation
@@ -56,6 +121,7 @@
     msg: "Pip version installed: {{ pip_version_output.stdout }}"
 
 - name: Clean up temporary files
+  become: true
   file:
     path: "{{ temp_dir }}"
     state: absent
