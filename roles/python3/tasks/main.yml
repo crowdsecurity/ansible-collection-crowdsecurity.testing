@@ -86,7 +86,7 @@
 - name: Create symlink for python3
   become: true
   file:
-    src: "{{ install_dir }}/bin/python3"
+    src: "{{ install_dir }}"
     dest: "/usr/local/bin/python3"
     state: link
 
