@@ -1,7 +1,7 @@
 ---
 # defaults file for roles/python3
 python_version: "3.12.3"
-python_major_minor: "{{ pyhon_version | regex_search('^[0-9]+\\.[0-9]+') }}"
+python_major_minor: "{{ python_version | regex_search('^[0-9]+\\.[0-9]+') }}"
 download_url: "https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python_version }}.tar.xz"
 install_dir: "/usr/local/python{{ python_major_minor }}"
 temp_dir: "/tmp/python{{ python_version }}"
