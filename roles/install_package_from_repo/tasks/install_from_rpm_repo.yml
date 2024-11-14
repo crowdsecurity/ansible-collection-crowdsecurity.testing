@@ -6,7 +6,7 @@
   block:
     - name: "Stable rpm repo script"
       ansible.builtin.get_url:
-        url: https://install.dev.crowdsec.sh
+        url: https://install.dev.crowdsec.net
         dest: "/root/script.sh"
         mode: 0o775
 
@@ -18,11 +18,15 @@
     - name: "Testing rpm repo"
       ansible.builtin.command:
         cmd: "/root/rpm-testing.sh"
+      environment:
+        repo: crowdsec-testing
       changed_when: true
 
     - name: "Dev rpm repo"
       ansible.builtin.command:
         cmd: "/root/rpm-dev.sh"
+      environment:
+        repo: crowdsec-dev
       changed_when: true
 
     - name: "Install package {{ binary_package_name }}"
