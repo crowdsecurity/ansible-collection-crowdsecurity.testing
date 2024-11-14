@@ -40,13 +40,5 @@
     - name: "Install package {{ binary_package_name }}"
       ansible.builtin.package:
         name:
-          - "{{ binary_package_name }}-{{ package_version_rpm }}.el9 }}"
-      when:
-        - releasever != "amzn2"
-        - releasever != "ol7"
-
-    - name: "Install package {{ binary_package_name }}"
-      ansible.builtin.package:
-        name:
           - "{{ binary_package_name }}-{{ package_version_rpm }}.{{ releasever.replace('amzn2', 'el7').replace('ol7', 'el7') }}"
       when: releasever == "amzn2" or releasver == "ol7"
