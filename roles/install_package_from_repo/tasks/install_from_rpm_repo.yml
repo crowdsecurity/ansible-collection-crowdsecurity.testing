@@ -6,7 +6,7 @@
   block:
     - name: "Stable rpm repo script"
       ansible.builtin.get_url:
-        url: https://install.dev.crowdsec.net
+        url: https://install.crowdsec.net
         dest: "/root/script.sh"
         mode: 0o775
 
